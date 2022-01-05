@@ -99,7 +99,7 @@ void full_prepare(vector<vector<double>>& A, vector<double>& B, vector<double>& 
 
 vector<double> gauss_without_selection(vector<vector<double>> A, vector<double> B)
 {
-	for (int i = 0; i < A.size(); i++)
+	for (int i = 0; i < A.size() - 1; i++)
 	{
 		if (is_zero(A, i))
 		{
@@ -107,6 +107,12 @@ vector<double> gauss_without_selection(vector<vector<double>> A, vector<double> 
 			return error;
 		}
 		step(A, B, i);
+	}
+
+	if (is_zero(A, A.size() - 1))
+	{
+		vector<double> error(A.size(), 0); 
+		return error;
 	}
 
 	return get_xs(A, B);
@@ -120,7 +126,7 @@ vector<double> gauss_with_row_selection(vector<vector<double>> A, vector<double>
 		history.push_back(i);
 	}
 
-	for (int i = 0; i < A.size(); i++)
+	for (int i = 0; i < A.size() - 1; i++)
 	{
 		row_prepare(A, history, i);
 		step(A, B, i);
@@ -133,7 +139,7 @@ vector<double> gauss_with_row_selection(vector<vector<double>> A, vector<double>
 
 vector<double> gauss_with_column_selection(vector<vector<double>> A, vector<double> B)
 {
-	for (int i = 0; i < A.size(); i++)
+	for (int i = 0; i < A.size() - 1; i++)
 	{
 		column_prepare(A, B, i);
 		step(A, B, i);
@@ -150,7 +156,7 @@ vector<double> gauss_with_full_selection(vector<vector<double>> A, vector<double
 		history.push_back(i);
 	}
 
-	for (int i = 0; i < A.size(); i++)
+	for (int i = 0; i < A.size() - 1; i++)
 	{
 		full_prepare(A, B, history, i);
 		step(A, B, i);
